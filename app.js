@@ -8,6 +8,8 @@ const app = express()
 const exphbs = require('express-handlebars')
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
+const Todo = require('./models/todo')
+
 const db = mongoose.connection
 // 連線失敗
 db.on('error', () => {
@@ -19,11 +21,14 @@ db.once('open', () => {
 })
 
 // extname:指定副檔名為縮寫的hbs
-app.engine('hbs', exphbs.engine({ extname: '.hbs' ,defaultLayout: 'main'}))
+app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
-  res.render('index')
+  Todo.find() // 取出Todo model中的資料
+    .lean() // ※point※把Mongoose的Model物件換成乾淨的JS資料
+    .then(todos => { res.render('index', { todos }) }) // {todos} = { todos : todos }
+    .catch(error => { console.error(error) }) //錯誤捕捉
 })
 
 app.listen(3000, () => {
