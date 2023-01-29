@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //主頁
 app.get('/', (req, res) => {
   Todo.find() // 取出Todo model中的資料
+    .sort({ _id: 'asc' }) // 正序：asc、反序：desc
     .lean() // ※point※把Mongoose的Model物件換成乾淨的JS資料
     .then(todos => { res.render('index', { todos }) }) // {todos} = { todos : todos }
     .catch(error => { console.error(error) }) //錯誤捕捉
