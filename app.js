@@ -7,6 +7,9 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express()
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+// 以上套件因使用上有包含相關變數，故一定要在app = express()之後宣告
+
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 引用todo.js中的 Schema
@@ -27,6 +30,7 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 //主頁
 app.get('/', (req, res) => {
@@ -69,7 +73,7 @@ app.get('/todos/:id/edit', (req, res) => {
 })
 
 // 資料編輯後儲存
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone } = req.body
 
@@ -84,7 +88,7 @@ app.post('/todos/:id/edit', (req, res) => {
 })
 
 // 資料刪除
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then(todo => todo.remove())
