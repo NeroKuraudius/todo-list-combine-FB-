@@ -1,8 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
 
 const app = express()
 const exphbs = require('express-handlebars')
@@ -10,20 +6,9 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 // 以上套件因使用上有包含相關變數，故一定要在app = express()之後宣告
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-
 // 引用todo.js中的 Schema
 const Todo = require('./models/todo')
-
-const db = mongoose.connection
-// 連線失敗
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-// 連線成功
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+require('./config/mongoose')
 
 // extname:指定副檔名為縮寫的hbs
 app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }))
