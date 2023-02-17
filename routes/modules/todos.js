@@ -13,7 +13,7 @@ router.get('/new', (req, res) => {
 router.post('/', (req, res) => {
   const name = req.body.name
   return Todo.create({ name }) //存回資料庫
-    .then(() => { res.redirect('/') }) //新增厚導回首頁
+    .then(() => { res.redirect('/') }) //新增後導回首頁
     .catch(error => { console.log(error) })
 })
 
@@ -38,7 +38,7 @@ router.get('/:id/edit', (req, res) => {
 // 資料編輯後儲存
 router.put('/:id', (req, res) => {
   const id = req.params.id
-  const { name, isDone } = req.body
+  const { isDone, name } = req.body
 
   return Todo.findById(id)
     .then(todo => {
