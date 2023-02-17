@@ -2,7 +2,6 @@ const express = require('express')
 
 const app = express()
 const exphbs = require('express-handlebars')
-const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 // 以上套件因使用上有包含相關變數，故一定要在app = express()之後宣告
 
@@ -14,7 +13,7 @@ require('./config/mongoose')
 app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 // 引用路由器 (設定/routes即會自動尋找底下的index.js)
