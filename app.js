@@ -5,6 +5,8 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 // 以上套件因使用上有包含相關變數，故一定要在app = express()之後宣告
 
+const PORT = process.env.PORT || 3000
+
 // 引用todo.js中的 Schema
 const Todo = require('./models/todo')
 require('./config/mongoose')
@@ -22,6 +24,6 @@ const routes = require('./routes')
 app.use(routes)
 
 
-app.listen(3000, () => {
-  console.log('Succeed in running on port 3000.')
+app.listen(PORT, () => {
+  console.log(`Succeed in running on port ${PORT}.`)
 })
