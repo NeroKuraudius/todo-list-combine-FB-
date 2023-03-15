@@ -10,8 +10,12 @@ router.use('/', home)
 // 引入todos模組程式碼
 const todos = require('./modules/todos')
 // 路由的路徑若為'/todos'，就執行todos中的程式碼
-router.use('/todos',todos)
+router.use('/todos', todos)
 
+// 引入user模組程式碼
+const users = require('./modules/users')
+// 路由的路徑若為'/users'，就執行todos中的程式碼
+router.use('/users', users)
 
 // 匯出路由器
 module.exports = router
