@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 
 const app = express()
 const exphbs = require('express-handlebars')
@@ -14,6 +15,12 @@ require('./config/mongoose')
 // extname:指定副檔名為縮寫的hbs
 app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
