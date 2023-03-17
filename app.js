@@ -1,5 +1,6 @@
 const express = require('express')
 const session = require('express-session')
+const usePassport = require('./config/passport')
 
 const app = express()
 const exphbs = require('express-handlebars')
@@ -24,6 +25,8 @@ app.use(session({
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+
+usePassport(app)
 
 // 引用路由器 (設定/routes即會自動尋找底下的index.js)
 const routes = require('./routes')
