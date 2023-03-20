@@ -29,6 +29,12 @@ app.use(methodOverride('_method'))
 
 usePassport(app)
 
+app.use((req,res,next)=>{
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+
 // 引用路由器 (設定/routes即會自動尋找底下的index.js)
 const routes = require('./routes')
 // 將 request 導入路由器
