@@ -10,9 +10,6 @@ const methodOverride = require('method-override')
 // 以上套件因使用上有包含相關變數，故一定要在app = express()之後宣告
 
 const PORT = process.env.PORT || 3000
-
-// 引用todo.js中的 Schema
-const Todo = require('./models/todo')
 require('./config/mongoose')
 
 // extname:指定副檔名為縮寫的hbs

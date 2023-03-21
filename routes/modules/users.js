@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../../models/user')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -10,7 +11,7 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login',
-  failureFlash:true
+  failureFlash: true
 }))
 
 router.get('/logout', (req, res) => {
@@ -46,11 +47,15 @@ router.post('/register', (req, res) => {
         errors, name, email, password, confirmPassword
       })
     }
-    return User.create({
-      name, email, password
-    })
+    return bcrypt.genSalt(10)  // 加鹽，複雜度訂為10
+      .then(salt => bcrypt.hash(password, salt)) // 替使用者密碼加鹽
+      .then(hash => User.create({
+        name,
+        email,
+        password: hash
+      }))
       .then(() => res.redirect('/'))
-      .catch(error => console.log(error))
+      .catch(err => console.log(err))
   })
 })
 
