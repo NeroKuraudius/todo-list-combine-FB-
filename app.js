@@ -3,13 +3,16 @@ const session = require('express-session')
 const usePassport = require('./config/passport')
 const flash = require('connect-flash')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const app = express()
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 // 以上套件因使用上有包含相關變數，故一定要在app = express()之後宣告
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 require('./config/mongoose')
 
 // extname:指定副檔名為縮寫的hbs
@@ -17,7 +20,7 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
 
 app.use(session({
-  secret: 'ThisIsMySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))

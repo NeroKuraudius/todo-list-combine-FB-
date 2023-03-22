@@ -5,15 +5,15 @@ const router = express.Router()
 // 引入驗證器當中間件
 const { authenticator } = require('../middleware/auth')
 
-// 路由的路徑若為'/todos'，就執行todos中的程式碼
 const todos = require('./modules/todos')
 router.use('/todos', authenticator, todos)
 
-// 路由的路徑若為'/users'，就執行todos中的程式碼
 const users = require('./modules/users')
 router.use('/users', users)
 
-// 當路由的路徑為'/'時，執行home裡面的程式碼
+const auth = require('./modules/auth')
+router.use('/auth',auth)
+
 const home = require('./modules/home')
 router.use('/', authenticator, home)
 
